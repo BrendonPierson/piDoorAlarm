@@ -42,6 +42,9 @@ def alarm():
             io.output(alarmPin, 0)
             musicStop()
             break
+
+client.loop_start()
+
 try:
     while True:
         if io.input(doorPin):
