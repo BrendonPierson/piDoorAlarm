@@ -2,7 +2,7 @@
 import time
 import RPi.GPIO as io
 import pygame
-import paho.mqtt.client as mqtt
+import mqtt
 
 
 io.setmode(io.BCM)
@@ -33,6 +33,7 @@ def musicStop():
 
 def alarm():
     print("door alarm")
+    client.publish('backDoorStatus',payload='open',qos=0,retain=False)
     while io.input(disarmPin):
         io.output(alarmPin, 1)
         musicStart()

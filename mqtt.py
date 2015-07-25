@@ -17,7 +17,7 @@ client.on_connect = on_connect
 client.on_message = on_message
 
 client.connect("192.168.8.100", 1883, 60)
-client.publish('door',payload='open',qos=0,retain=false)
+#client.publish('door',payload='open',qos=0,retain=False)
 
 # Blocking call that processes network traffic, dispatches callbacks and
 # handles reconnecting.
