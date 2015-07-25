@@ -1,8 +1,9 @@
 #!/usr/bin/env python
 import time
-import os
 import RPi.GPIO as io
 import pygame
+import paho.mqtt.client as mqtt
+
 
 io.setmode(io.BCM)
 
@@ -22,9 +23,6 @@ io.output(alarmPin, 0)
 pygame.mixer.init()
 pygame.mixer.music.load("siren.ogg")
 
-
-print(io.input(disarmPin))
-
 def musicStart():
     pygame.mixer.music.play(-1,0)
     print("music start")
@@ -43,11 +41,10 @@ def alarm():
             io.output(alarmPin, 0)
             musicStop()
             break
-
-while True:
-    if io.input(doorPin):
-        alarm()
-    time.sleep(0.1)
-    
-
-GPIO.cleanup()
+try:
+    while True:
+        if io.input(doorPin):
+            alarm()
+        time.sleep(0.1)
+finally:
+    io.cleanup()
