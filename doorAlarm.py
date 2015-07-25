@@ -19,7 +19,9 @@ client = mqtt.Client()
 client.on_connect = on_connect
 client.on_message = on_message
 
+# Broker ip, Port, timeout
 client.connect("192.168.8.100", 1883, 60)
+client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
 
 io.setmode(io.BCM)
 
@@ -56,6 +58,7 @@ def alarm():
         if (io.input(disarmPin) == False):
             time.sleep(10)
             io.output(alarmPin, 0)
+            client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
             musicStop()
             break
 
