@@ -51,14 +51,14 @@ def musicStop():
 
 def alarm():
     print("door alarm")
-    client.publish('backDoorStatus',payload='ON',qos=0,retain=False)
+    client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
         io.output(alarmPin, 1)
         musicStart()
         if (io.input(disarmPin) == False):
             time.sleep(10)
             io.output(alarmPin, 0)
-            client.publish('backDoorStatus',payload='OFF',qos=0,retain=False)
+            client.publish('backDoorStatus',payload='1',qos=0,retain=False)
             musicStop()
             break
 
