@@ -16,24 +16,17 @@ armedPin = 20
 # reed switch goes pin 23 to ground
 # piezo goes pin 25 to ground
 # disarm button goes pin12 to button to ground
+# armed switch has the outside pins to 3v and ground middle pin to GPIO 20
 
 
 
-# set each pin as input or output, pull up resistors needed for switches
+# set each pin as input or output, pull up resistors needed for switches, 
+# the pull up resistor negates the need for aditional resistors in out circuit
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
 io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
-
-# # function that beeps i times
-# def beep():
-#     io.output(alarmPin, 1)
-#     time.sleep(.5)
-
-# io.add_event_detect(doorPin, io.BOTH, callback=beep())
-
-
 
 ##### MQTT setup #####
 # The callback for when the client receives a CONNACK response from the server.
