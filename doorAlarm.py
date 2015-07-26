@@ -23,6 +23,8 @@ io.setup(alarmPin, io.OUT)
 io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
+io.add_event_detect(doorPin, io.BOTH, callback=beep(2))
+
 
 ##### MQTT setup #####
 # The callback for when the client receives a CONNACK response from the server.
@@ -65,6 +67,12 @@ def musicStop():
     pygame.mixer.music.stop()
     print("music stop")
 
+# function that beeps i times
+def beep(i):
+    for x in range(1,i):
+        io.output(alarmPin, 1)
+        time.sleep(.05)
+
 ##### Main alarm function #####
 def alarm():
     print("door alarm")
@@ -84,7 +92,7 @@ def alarm():
 # Creates non-blocking loop for paho mqqt client to run
 client.loop_start()
 
-#try finally allows program to cleanup GPIO 
+#try/finally allows program to cleanup GPIO 
 try:
     while True:
         if io.input(doorPin):
