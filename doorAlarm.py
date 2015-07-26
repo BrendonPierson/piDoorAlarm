@@ -12,6 +12,7 @@ io.setmode(io.BCM)
 doorPin = 23
 alarmPin = 25
 disarmPin = 12
+armedPin = 20
 # reed switch goes pin 23 to ground
 # piezo goes pin 25 to ground
 # disarm button goes pin12 to button to ground
@@ -20,6 +21,7 @@ disarmPin = 12
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
 io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP)
+io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
 
 ##### MQTT setup #####
@@ -68,6 +70,8 @@ def alarm():
     print("door alarm")
     client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
+        if io.input(armedPin)
+            time.sleep(15)
         io.output(alarmPin, 1)
         musicStart()
         if (io.input(disarmPin) == False):
