@@ -70,8 +70,8 @@ def alarm():
     print("door alarm")
     client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
-        if io.input(armedPin)
-            time.sleep(15)
+        if io.input(armedPin):
+            time.sleep(5)
         io.output(alarmPin, 1)
         musicStart()
         if (io.input(disarmPin) == False):
