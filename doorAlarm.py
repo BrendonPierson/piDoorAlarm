@@ -17,11 +17,7 @@ armedPin = 20
 # piezo goes pin 25 to ground
 # disarm button goes pin12 to button to ground
 
-# function that beeps i times
-def beep(i):
-    for x in range(1,i):
-        io.output(alarmPin, 1)
-        time.sleep(.5)
+
 
 # set each pin as input or output, pull up resistors needed for switches
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
@@ -31,6 +27,10 @@ io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
 io.add_event_detect(doorPin, io.BOTH, callback=beep(2))
 
+# function that beeps i times
+def beep():
+    io.output(alarmPin, 1)
+    time.sleep(.5)
 
 ##### MQTT setup #####
 # The callback for when the client receives a CONNACK response from the server.
