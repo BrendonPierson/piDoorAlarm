@@ -71,7 +71,7 @@ def musicStop():
 def beep(i):
     for x in range(1,i):
         io.output(alarmPin, 1)
-        time.sleep(.05)
+        time.sleep(.5)
 
 ##### Main alarm function #####
 def alarm():
