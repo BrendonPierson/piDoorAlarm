@@ -49,6 +49,7 @@ client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
 subscribe([('alarmNoDelay', qos=0), ('alarmWDelay', qos=0)])
 
 
+
 ##### MUSIC setup #####
 # itialize the pygame music player for the alarm file
 pygame.mixer.init()
