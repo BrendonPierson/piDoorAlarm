@@ -46,7 +46,7 @@ client.connect("192.168.8.100", 1883, 60)
 client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
 
 #subscribe to alarm armed status from openhab
-subscribe([('alarmNoDelay', qos=0), ('alarmWDelay', qos=0)])
+client.subscribe('alarmNoDelay',qos=0)
 
 
 
