@@ -17,6 +17,12 @@ armedPin = 20
 # piezo goes pin 25 to ground
 # disarm button goes pin12 to button to ground
 
+# function that beeps i times
+def beep(i):
+    for x in range(1,i):
+        io.output(alarmPin, 1)
+        time.sleep(.5)
+
 # set each pin as input or output, pull up resistors needed for switches
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
@@ -67,11 +73,7 @@ def musicStop():
     pygame.mixer.music.stop()
     print("music stop")
 
-# function that beeps i times
-def beep(i):
-    for x in range(1,i):
-        io.output(alarmPin, 1)
-        time.sleep(.5)
+
 
 ##### Main alarm function #####
 def alarm():
