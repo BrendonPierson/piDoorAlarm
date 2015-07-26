@@ -31,7 +31,7 @@ def beep():
     io.output(alarmPin, 1)
     time.sleep(.5)
 
-io.add_event_detect(doorPin, io.BOTH, callback=beep(2))
+io.add_event_detect(doorPin, io.BOTH, callback=beep())
 
 
 
