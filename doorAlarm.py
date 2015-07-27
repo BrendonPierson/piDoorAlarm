@@ -13,11 +13,12 @@ doorPin = 23
 alarmPin = 25
 disarmPin = 12
 armedPin = 20
+onPin = 21
 # reed switch goes pin 23 to ground
 # piezo goes pin 25 to ground
 # disarm button goes pin12 to button to ground
 # armed switch has the outside pins to 3v and ground middle pin to GPIO 20
-
+# onPin is conected to 3.3v
 
 
 # set each pin as input or output, pull up resistors needed for switches, 
@@ -26,6 +27,7 @@ io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
 io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
+io.setup(onPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
 
 ##### MQTT setup #####
@@ -113,7 +115,7 @@ io.add_event_callback(doorPin, my_callback)
 #try/finally allows program to cleanup GPIO 
 try:
     while True:
-        if io.input(doorPin):
+        if io.input(doorPin) and io.input(onPin):
             alarm()
         time.sleep(0.1)
 finally:
