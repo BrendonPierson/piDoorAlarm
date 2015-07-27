@@ -110,6 +110,7 @@ def my_callback(channel):
 io.add_event_callback(doorPin, my_callback)
 
 
+print(io.input(onPin))
 
 
 #try/finally allows program to cleanup GPIO 
