@@ -30,29 +30,29 @@ io.output(alarmPin, 0)
 
 ##### MQTT setup #####
 # The callback for when the client receives a CONNACK response from the server.
-def on_connect(client, userdata, rc):
-    print("Connected with result code "+str(rc))
-    # Subscribing in on_connect() means that if we lose the connection and
-    # reconnect then subscriptions will be renewed.
-    client.subscribe("door")
+# def on_connect(client, userdata, rc):
+#     print("Connected with result code "+str(rc))
+#     # Subscribing in on_connect() means that if we lose the connection and
+#     # reconnect then subscriptions will be renewed.
+#     client.subscribe("door")
 
 # The callback for when a PUBLISH message is received from the server.
-def on_message(client, userdata, msg):
-    print(msg.topic+" "+str(msg.payload))
+# def on_message(client, userdata, msg):
+#     print(msg.topic+" "+str(msg.payload))
 
 #initialize client
-client = mqtt.Client()
-client.on_connect = on_connect
-client.on_message = on_message
+# client = mqtt.Client()
+# client.on_connect = on_connect
+# client.on_message = on_message
 
 # Broker ip, Port, timeout
-client.connect("192.168.8.100", 1883, 60)
+# client.connect("192.168.8.10", 1883, 60)
 
 #initial door closed status
-client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
+# client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
 
 #subscribe to alarm armed status from openhab
-client.subscribe('alarmNoDelay',qos=0)
+# client.subscribe('alarmNoDelay',qos=0)
 
 
 
@@ -74,7 +74,7 @@ def musicStop():
 ##### Main alarm function #####
 def alarm():
     print("door alarm")
-    client.publish('backDoorStatus',payload='0',qos=0,retain=False)
+    # client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
         if io.input(armedPin):
             time.sleep(5)
@@ -83,12 +83,12 @@ def alarm():
         if (io.input(disarmPin) == False):
             #time.sleep(10) 
             io.output(alarmPin, 0)
-            client.publish('backDoorStatus',payload='1',qos=0,retain=False)
+            # client.publish('backDoorStatus',payload='1',qos=0,retain=False)
             musicStop()
             break
 
 # Creates non-blocking loop for paho mqqt client to run
-client.loop_start()
+# client.loop_start()
 
 # door beep
 io.add_event_detect(doorPin, io.BOTH)
@@ -100,7 +100,7 @@ def my_callback():
     io.output(alarmPin, 1)
     time.sleep(.5)
     io.output(alarmPin, 0)
-    
+
 io.add_event_callback(doorPin, my_callback)
 
 
