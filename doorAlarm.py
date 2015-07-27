@@ -90,6 +90,20 @@ def alarm():
 # Creates non-blocking loop for paho mqqt client to run
 client.loop_start()
 
+# door beep
+io.add_event_detect(doorPin, io.BOTH)
+def my_callback():
+    io.output(alarmPin, 1)
+    time.sleep(.5)
+    io.output(alarmPin, 0)
+    time.sleep(.5)
+    io.output(alarmPin, 1)
+    time.sleep(.5)
+    io.output(alarmPin, 0)
+    
+io.add_event_callback(doorPin, my_callback)
+
+
 #try/finally allows program to cleanup GPIO 
 try:
     while True:
