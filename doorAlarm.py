@@ -91,18 +91,23 @@ def alarm():
 # client.loop_start()
 
 # door beep
-io.add_event_detect(doorPin, io.BOTH, callback=my_callback)
+
+
+io.add_event_detect(doorPin, io.BOTH)
 
 def my_callback(channel):
     io.output(alarmPin, 1)
-    time.sleep(.5)
+    time.sleep(.1)
     io.output(alarmPin, 0)
-    time.sleep(.5)
+    time.sleep(.1)
     io.output(alarmPin, 1)
-    time.sleep(.5)
+    time.sleep(.1)
     io.output(alarmPin, 0)
 
-io.wait_for_edge(doorPin, BOTH)
+
+io.add_event_callback(doorPin, my_callback)
+
+
 
 
 #try/finally allows program to cleanup GPIO 
