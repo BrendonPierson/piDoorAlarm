@@ -2,7 +2,7 @@
 import time
 import RPi.GPIO as io
 import pygame
-import paho.mqtt.client as mqtt
+# import paho.mqtt.client as mqtt
 
 ##### GPIO setup #####
 # set the pin numbering 
