@@ -101,7 +101,7 @@ def my_callback():
     time.sleep(.5)
     io.output(alarmPin, 0)
 
-io.add_event_callback(doorPin, my_callback())
+io.add_event_callback(doorPin, my_callback)
 
 
 #try/finally allows program to cleanup GPIO 
