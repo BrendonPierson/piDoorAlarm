@@ -6,14 +6,13 @@ import pygame
 
 ##### GPIO setup #####
 # set the pin numbering 
-io.setmode(io.BCM)
+io.setmode(io.BOARD)
 
 # assign GPIO pins
-alarmPin = 8
-disarmPin = 25
-doorPin = 9
-onPin = 24
-
+alarmPin = 5
+disarmPin = 3
+doorPin = 37
+onPin = 35
 armedPin = 7
 
 # reed switch goes pin 23 to ground (brown)
