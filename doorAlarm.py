@@ -30,7 +30,7 @@ io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
 io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP) # may need to put this back in
 io.setup(armedWdelay, io.IN, pull_up_down=io.PUD_UP)
-io.setup(armedWdelay, io.IN, pull_up_down=io.PUD_UP)
+io.setup(armedNodelay, io.IN, pull_up_down=io.PUD_UP)
 io.setup(onPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
 
