@@ -16,12 +16,13 @@ onPin = 35
 armedWdelay = 33 
 armedNoDelay = 31
 
-# reed switch goes pin 23 to ground (brown)
-# piezo goes pin 25 to ground (yellow)
-# disarm button goes pin24 to button to ground (green)
-# armed switch has the outside pins to 3v 
-    ## and ground middle pin to GPIO 2 (blue)
-# onPin 22 is conected to 3.3v (1) or ground (0) then door is armed
+# reed switch goes pin 37 to ground (brown)
+# piezo goes pin 11 to ground (yellow)
+# disarm button goes pin 13 to button to ground (green)
+# armed switch has the outside pins to 33 and 31 
+    ## and ground middle pin to ground (blue)
+    ## towards outside = nodelay, inside delay
+# onPin 35 is conected to 3.3v (1) or ground (0) then door is armed
 
 
 # set each pin as input or output, pull up resistors needed for switches, 
@@ -112,21 +113,14 @@ def my_callback(channel):
 
 io.add_event_callback(doorPin, my_callback)
 
-if io.input(armedWdelay) == 0:
-    print "alarm has delay"
-elif io.input(armedNoDelay) == 0:
-    print "Alarm has no delay"
-
-
-
-
-
-
-
 if io.input(onPin) == 0:
     print "Alarm system off"
 else: 
     print "Alarm system is armed"
+    if io.input(armedWdelay) == 0:
+        print "alarm has delay"
+    elif io.input(armedNoDelay) == 0:
+        print "Alarm has no delay"
 
 print(io.input(onPin))
 
