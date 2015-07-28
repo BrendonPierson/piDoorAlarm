@@ -13,7 +13,7 @@ alarmPin = 11
 disarmPin = 13
 doorPin = 37
 onPin = 35
-armedPin = 7
+armedPin = 33 
 
 # reed switch goes pin 23 to ground (brown)
 # piezo goes pin 25 to ground (yellow)
