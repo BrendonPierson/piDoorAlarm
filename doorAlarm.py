@@ -9,16 +9,19 @@ import pygame
 io.setmode(io.BCM)
 
 # assign GPIO pins
-doorPin = 23
 alarmPin = 25
-disarmPin = 12
-armedPin = 20
-onPin = 21
-# reed switch goes pin 23 to ground
-# piezo goes pin 25 to ground
-# disarm button goes pin12 to button to ground
-# armed switch has the outside pins to 3v and ground middle pin to GPIO 20
-# onPin is conected to 3.3v
+disarmPin = 24
+doorPin = 23
+onPin = 22
+
+armedPin = 8
+
+# reed switch goes pin 23 to ground (brown)
+# piezo goes pin 25 to ground (yellow)
+# disarm button goes pin24 to button to ground (green)
+# armed switch has the outside pins to 3v 
+    ## and ground middle pin to GPIO 8 (blue)
+# onPin 22 is conected to 3.3v (1) or ground (0) then door is armed
 
 
 # set each pin as input or output, pull up resistors needed for switches, 
