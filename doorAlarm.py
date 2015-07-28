@@ -10,7 +10,7 @@ io.setmode(io.BOARD)
 
 # assign GPIO pins
 alarmPin = 11
-disarmPin = 3
+disarmPin = 13
 doorPin = 37
 onPin = 35
 armedPin = 7
@@ -27,7 +27,7 @@ armedPin = 7
 # the pull up resistor negates the need for aditional resistors in out circuit
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
-io.setup(disarmPin, io.IN) #, pull_up_down=io.PUD_UP may need to put this back in
+io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP) # may need to put this back in
 io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(onPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
