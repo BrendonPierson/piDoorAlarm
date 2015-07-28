@@ -13,7 +13,8 @@ alarmPin = 11
 disarmPin = 13
 doorPin = 37
 onPin = 35
-armedPin = 33 
+armedWdelay = 33 
+armedNoDelay = 31
 
 # reed switch goes pin 23 to ground (brown)
 # piezo goes pin 25 to ground (yellow)
@@ -28,7 +29,8 @@ armedPin = 33
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
 io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP) # may need to put this back in
-io.setup(armedPin, io.IN, pull_up_down=io.PUD_UP)
+io.setup(armedWdelay, io.IN, pull_up_down=io.PUD_UP)
+io.setup(armedWdelay, io.IN, pull_up_down=io.PUD_UP)
 io.setup(onPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
 
@@ -80,7 +82,7 @@ def alarm():
     print("door alarm")
     # client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
-        if io.input(armedPin):
+        if io.input(armedWdelay):
             time.sleep(5)
         io.output(alarmPin, 1)
         musicStart()
@@ -108,9 +110,23 @@ def my_callback(channel):
     time.sleep(.1)
     io.output(alarmPin, 0)
 
-
 io.add_event_callback(doorPin, my_callback)
 
+if io.input(armedWdelay) == 0:
+    print "alarm has delay"
+elif io.input(armedNoDelay) == 0:
+    print "Alarm has no delay"
+
+
+
+
+
+
+
+if io.input(onPin) == 0:
+    print "Alarm system off"
+else: 
+    print "Alarm system is armed"
 
 print(io.input(onPin))
 
