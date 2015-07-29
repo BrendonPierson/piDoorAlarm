@@ -121,7 +121,7 @@ def my_callback(channel):
 io.add_event_callback(doorPin, my_callback)
 
 #Turn alarm on or off callback function
-io.add_event_detect(onPin), io.BOTH)
+io.add_event_detect(onPin, io.BOTH)
 def armCallback (thread):
     print "armed"
     if io.input(onPin) == 1:
@@ -137,13 +137,13 @@ def armCallback (thread):
         print "Alarm system is off"
 io.add_event_callback(onPin, armCallback)
 
-def armed():
-    #try/finally allows program to cleanup GPIO 
-    try:
-        while True:
-            if io.input(doorPin) and io.input(onPin):
-                print "door pin open and input is on"
-                alarm()
-            time.sleep(0.1)
-    finally:
-        io.cleanup()
+
+#try/finally allows program to cleanup GPIO 
+try:
+    while True:
+        if io.input(doorPin) and io.input(onPin):
+            print "door pin open and input is on"
+            alarm()
+        time.sleep(0.1)
+finally:
+    io.cleanup()
