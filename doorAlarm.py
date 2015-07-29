@@ -22,7 +22,7 @@ armedNoDelay = 31
 # armed switch has the outside pins to 33 and 31 
     ## and ground middle pin to ground (blue)
     ## towards outside = nodelay, inside delay
-# onPin 35 is conected to 3.3v (1) or ground (0) then door is armed
+# onPin 35 is conected to 3.3v (1) or ground (0) 
 
 
 # set each pin as input or output, pull up resistors needed for switches, 
@@ -63,11 +63,12 @@ io.output(alarmPin, 0)
 
 
 
-##### MUSIC setup #####
+##### NOISE setup #####
 # itialize the pygame music player for the alarm file
 pygame.mixer.init()
 pygame.mixer.music.load("siren.ogg")
 
+#start and stop functions for the music player
 def musicStart():
     pygame.mixer.music.play(-1,0)
     print("music start")
@@ -76,18 +77,28 @@ def musicStop():
     pygame.mixer.music.stop()
     print("music stop")
 
+#start and stop functions for the buzzer
+def buzzerStart():
+    io.output(alarmPin, 1)
+    print("buzzer start")
 
+def buzzerStop():
+    io.output(alarmPin, 0)
+    print("buzzer stop")
 
 ##### Main alarm function #####
 def alarm():
-    print("door alarm")
+    print("door alarm activated")
     # client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
+        print("disarm pin is not activated")
         if io.input(armedWdelay):
+            print "armed with delay so we wait 5s"
             time.sleep(5)
         io.output(alarmPin, 1)
         musicStart()
         if (io.input(disarmPin) == False):
+            print "disarm pin is pressed"
             #time.sleep(10) 
             io.output(alarmPin, 0)
             # client.publish('backDoorStatus',payload='1',qos=0,retain=False)
@@ -97,39 +108,42 @@ def alarm():
 # Creates non-blocking loop for paho mqqt client to run
 # client.loop_start()
 
-# door beep
-
-
+##### Create Event Detects #####
+# door beep callback function
 io.add_event_detect(doorPin, io.BOTH)
-
 def my_callback(channel):
-    io.output(alarmPin, 1)
-    time.sleep(.1)
-    io.output(alarmPin, 0)
-    time.sleep(.1)
-    io.output(alarmPin, 1)
-    time.sleep(.1)
-    io.output(alarmPin, 0)
-
+    print "door was open, beep beep"
+    for x in range(2):
+        buzzerStart()
+        time.sleep(.1)
+        buzzerStop()
+        time.sleep(.1)
 io.add_event_callback(doorPin, my_callback)
 
-if io.input(onPin) == 0:
-    print "Alarm system off"
-else: 
-    print "Alarm system is armed"
-    if io.input(armedWdelay) == 0:
-        print "alarm has delay"
-    elif io.input(armedNoDelay) == 0:
-        print "Alarm has no delay"
+#Turn alarm on or off callback function
+io.add_event_detect(onPin), io.BOTH)
+def armCallback (thread):
+    print "armed"
+    if io.input(onPin) == 1:
+        print "Alarm system is on"
+        if io.input(armedWdelay == 0):
+            print "You have 20 seconds before the alarm is active"
+            time.sleep(20)
+            armed()
+        else:
+            print "Alarm is activated, no delay"
+            armed()
+    else:
+        print "Alarm system is off"
+io.add_event_callback(onPin, armCallback)
 
-print(io.input(onPin))
-
-
-#try/finally allows program to cleanup GPIO 
-try:
-    while True:
-        if io.input(doorPin) and io.input(onPin):
-            alarm()
-        time.sleep(0.1)
-finally:
-    io.cleanup()
+def armed():
+    #try/finally allows program to cleanup GPIO 
+    try:
+        while True:
+            if io.input(doorPin) and io.input(onPin):
+                print "door pin open and input is on"
+                alarm()
+            time.sleep(0.1)
+    finally:
+        io.cleanup()
