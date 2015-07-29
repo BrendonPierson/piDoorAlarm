@@ -3,6 +3,7 @@ import time
 import RPi.GPIO as io
 import pygame
 # import paho.mqtt.client as mqtt
+delay = input("how much delay would you like before arming?")
 
 ##### GPIO setup #####
 # set the pin numbering 
@@ -140,6 +141,7 @@ io.add_event_callback(onPin, armCallback)
 
 #try/finally allows program to cleanup GPIO 
 try:
+    time.sleep(delay)
     while True:
         if io.input(doorPin) and io.input(onPin):
             print "door pin open and input is on"
