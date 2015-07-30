@@ -41,6 +41,13 @@ io.setup(armedNoDelay, io.IN, pull_up_down=io.PUD_UP)
 io.setup(onPin, io.IN, pull_up_down=io.PUD_UP)
 io.output(alarmPin, 0)
 
+if io.input(onPin):
+    if io.input(armedWdelay):
+        print "armed with delay so we wait 5s after the door opens"
+    if io.input(armedNodelay):
+        print "armed with no delay"
+else:
+    print "Alarm system is completely off"
 ##### MQTT setup #####
 # The callback for when the client receives a CONNACK response from the server.
 # def on_connect(client, userdata, rc):
@@ -127,21 +134,21 @@ def my_callback(channel):
 io.add_event_callback(doorPin, my_callback)
 
 #Turn alarm on or off callback function
-io.add_event_detect(onPin, io.BOTH)
-def armCallback (thread):
-    print "armed"
-    if io.input(onPin) == 1:
-        print "Alarm system is on"
-        if io.input(armedWdelay == 0):
-            print "You have 20 seconds before the alarm is active"
-            time.sleep(20)
-            armed()
-        else:
-            print "Alarm is activated, no delay"
-            armed()
-    else:
-        print "Alarm system is off"
-io.add_event_callback(onPin, armCallback)
+# io.add_event_detect(onPin, io.BOTH)
+# def armCallback (thread):
+#     print "armed"
+#     if io.input(onPin) == 1:
+#         print "Alarm system is on"
+#         if io.input(armedWdelay == 0):
+#             print "You have 20 seconds before the alarm is active"
+#             time.sleep(20)
+#             armed()
+#         else:
+#             print "Alarm is activated, no delay"
+#             armed()
+#     else:
+#         print "Alarm system is off"
+# io.add_event_callback(onPin, armCallback)
 
 
 #try/finally allows program to cleanup GPIO 
