@@ -2,6 +2,7 @@
 import time
 import RPi.GPIO as io
 import pygame
+import smtplib
 # import paho.mqtt.client as mqtt
 delay = input("how much delay would you like before arming?")
 for i in range(delay):
@@ -150,6 +151,34 @@ io.add_event_callback(doorPin, my_callback)
 #         print "Alarm system is off"
 # io.add_event_callback(onPin, armCallback)
 
+#email function for debugging
+
+ 
+def sendemail(from_addr, to_addr_list, cc_addr_list,
+              subject, message,
+              login, password,
+              smtpserver='smtp.gmail.com:587'):
+    header  = 'From: %s\n' % from_addr
+    header += 'To: %s\n' % ','.join(to_addr_list)
+    header += 'Cc: %s\n' % ','.join(cc_addr_list)
+    header += 'Subject: %s\n\n' % subject
+    message = header + message
+ 
+    server = smtplib.SMTP(smtpserver)
+    server.starttls()
+    server.login(login,password)
+    problems = server.sendmail(from_addr, to_addr_list, message)
+    server.quit()
+    return problems
+
+if input("would you like to send debug email, y or n?") == "y":
+    myEmail = "brendonpierson@gmail.com"
+    toEmail = "brendonpierson@gmail.com"
+    message = "failed at %s" % time.strftime("%H:%M:%S")
+    login = input("username?")
+    pw = input("pw")
+
+sendemail(myEmail, toEmail, [], rPI debug, message, login, pw)
 
 #try/finally allows program to cleanup GPIO 
 try:
