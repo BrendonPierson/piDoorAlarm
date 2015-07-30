@@ -132,7 +132,7 @@ def my_callback(channel):
         time.sleep(.1)
         buzzerStop()
         time.sleep(.1)
-io.add_event_callback(doorPin, my_callback, bouncetime=1000)
+io.add_event_callback(doorPin, my_callback, bouncetime=500)
 
 #Turn alarm on or off callback function
 # io.add_event_detect(onPin, io.BOTH)
