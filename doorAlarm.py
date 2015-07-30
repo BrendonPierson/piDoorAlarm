@@ -124,7 +124,7 @@ def alarm():
 
 ##### Create Event Detects #####
 # door beep callback function
-io.add_event_detect(doorPin, io.BOTH)
+io.add_event_detect(doorPin, io.BOTH, bouncetime=500)
 def my_callback(channel):
     print "door was open, beep beep"
     for x in range(2):
@@ -132,7 +132,7 @@ def my_callback(channel):
         time.sleep(.1)
         buzzerStop()
         time.sleep(.1)
-io.add_event_callback(doorPin, my_callback, bouncetime=500)
+io.add_event_callback(doorPin, my_callback)
 
 #Turn alarm on or off callback function
 # io.add_event_detect(onPin, io.BOTH)
@@ -171,7 +171,9 @@ def sendemail(from_addr, to_addr_list, cc_addr_list,
     server.quit()
     return problems
 
-if input("would you like to send debug email, y or n?") == "y":
+debug = input("would you like to send debug email, y or no?"
+
+if (debug == "y"):
     myEmail = "brendonpierson@gmail.com"
     toEmail = "brendonpierson@gmail.com"
     message = "failed at %s" % time.strftime("%H:%M:%S")
