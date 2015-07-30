@@ -178,7 +178,8 @@ if input("would you like to send debug email, y or n?") == "y":
     login = input("username?")
     pw = input("pw")
 
-sendemail(myEmail, toEmail, [], rPI debug, message, login, pw)
+
+sendemail(myEmail, toEmail, []," rPI debug", message, login, pw)
 
 #try/finally allows program to cleanup GPIO 
 try:
