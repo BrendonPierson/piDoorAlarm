@@ -4,6 +4,11 @@ import RPi.GPIO as io
 import pygame
 # import paho.mqtt.client as mqtt
 delay = input("how much delay would you like before arming?")
+for i in range(delay):
+    time.sleep(1)
+    print (delay - i)
+
+print (time.strftime("%H:%M:%S"))
 
 ##### GPIO setup #####
 # set the pin numbering 
@@ -148,4 +153,5 @@ try:
             alarm()
         time.sleep(0.1)
 finally:
+    print (time.strftime("%H:%M:%S"))
     io.cleanup()
