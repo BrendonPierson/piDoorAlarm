@@ -44,7 +44,7 @@ io.output(alarmPin, 0)
 if io.input(onPin):
     if io.input(armedWdelay):
         print "armed with delay so we wait 5s after the door opens"
-    if io.input(armedNodelay):
+    if io.input(armedNoDelay):
         print "armed with no delay"
 else:
     print "Alarm system is completely off"
