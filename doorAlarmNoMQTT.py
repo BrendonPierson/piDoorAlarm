@@ -3,7 +3,14 @@ import time
 import RPi.GPIO as io
 import pygame
 import smtplib
-# import paho.mqtt.client as mqtt
+
+if input("would you like to send debug email, y or n?") == "y":
+    myEmail = raw_input("From email")
+    toEmail = raw_input("To email?")
+    login = raw_input("username?")
+    pw = raw_input("pw")
+
+# set the delay so you can exit if necessary
 delay = input("how much delay would you like before arming?")
 for i in range(delay):
     time.sleep(1)
@@ -23,13 +30,17 @@ onPin = 35
 armedWdelay = 33 
 armedNoDelay = 31
 
-# reed switch goes pin 37 to ground (brown)
-# piezo goes pin 11 to ground (yellow)
-# disarm button goes pin 13 to button to ground (green)
-# armed switch has the outside pins to 33 and 31 
-    ## and ground middle pin to ground (blue)
+# doorPin => reed switch goes pin 37 to ground (brown)
+    ## starts 0, goes to 1 when door opens
+# alarmPin => piezo goes pin 11 to ground (yellow), 
+    ## starts at 0, goes to 1 to play anoying buzz
+# disarmPin => pin 13 to button to ground (green)
+    ## starts 1 goes to 0 when pressed 
+# armedPin => switch has the outside pins to 33 and 31 
+    ## and middle pin to ground (blue)
     ## towards outside = nodelay, inside delay
-# onPin 35 is conected to 3.3v (1) or ground (0) 
+# onPin => 35 is conected to 3.3v (1) or ground (0)
+    ## could replace with a 
 
 
 # set each pin as input or output, pull up resistors needed for switches, 
@@ -49,33 +60,6 @@ if io.input(onPin):
         print "armed with no delay"
 else:
     print "Alarm system is completely off"
-##### MQTT setup #####
-# The callback for when the client receives a CONNACK response from the server.
-# def on_connect(client, userdata, rc):
-#     print("Connected with result code "+str(rc))
-#     # Subscribing in on_connect() means that if we lose the connection and
-#     # reconnect then subscriptions will be renewed.
-#     client.subscribe("door")
-
-# The callback for when a PUBLISH message is received from the server.
-# def on_message(client, userdata, msg):
-#     print(msg.topic+" "+str(msg.payload))
-
-#initialize client
-# client = mqtt.Client()
-# client.on_connect = on_connect
-# client.on_message = on_message
-
-# Broker ip, Port, timeout
-# client.connect("192.168.8.10", 1883, 60)
-
-#initial door closed status
-# client.publish('backDoorStatus',payload='closed',qos=0,retain=False)
-
-#subscribe to alarm armed status from openhab
-# client.subscribe('alarmNoDelay',qos=0)
-
-
 
 ##### NOISE setup #####
 # itialize the pygame music player for the alarm file
@@ -103,7 +87,6 @@ def buzzerStop():
 ##### Main alarm function #####
 def alarm():
     print("door alarm activated")
-    # client.publish('backDoorStatus',payload='0',qos=0,retain=False)
     while io.input(disarmPin):
         print("disarm pin is not activated")
         if io.input(armedWdelay):
@@ -113,14 +96,9 @@ def alarm():
         musicStart()
         if (io.input(disarmPin) == False):
             print "disarm pin is pressed"
-            #time.sleep(10) 
             io.output(alarmPin, 0)
-            # client.publish('backDoorStatus',payload='1',qos=0,retain=False)
             musicStop()
             break
-
-# Creates non-blocking loop for paho mqqt client to run
-# client.loop_start()
 
 ##### Create Event Detects #####
 # door beep callback function
@@ -134,26 +112,7 @@ def my_callback(channel):
         time.sleep(.1)
 io.add_event_callback(doorPin, my_callback)
 
-#Turn alarm on or off callback function
-# io.add_event_detect(onPin, io.BOTH)
-# def armCallback (thread):
-#     print "armed"
-#     if io.input(onPin) == 1:
-#         print "Alarm system is on"
-#         if io.input(armedWdelay == 0):
-#             print "You have 20 seconds before the alarm is active"
-#             time.sleep(20)
-#             armed()
-#         else:
-#             print "Alarm is activated, no delay"
-#             armed()
-#     else:
-#         print "Alarm system is off"
-# io.add_event_callback(onPin, armCallback)
-
-#email function for debugging
-
- 
+###### email function for debugging ####### 
 def sendemail(from_addr, to_addr_list, cc_addr_list,
               subject, message,
               login, password,
@@ -171,14 +130,12 @@ def sendemail(from_addr, to_addr_list, cc_addr_list,
     server.quit()
     return problems
 
+# Prompt if you would like email sent
 if input("would you like to send debug email, y or n?") == "y":
-    myEmail = "brendonpierson@gmail.com"
-    toEmail = "brendonpierson@gmail.com"
-    message = "failed at %s" % time.strftime("%H:%M:%S")
-    login = input("username?")
-    pw = input("pw")
-
-sendemail(myEmail, toEmail, [], rPI debug, message, login, pw)
+    myEmail = raw_input("From email")
+    toEmail = raw_input("To email?")
+    login = raw_input("username?")
+    pw = raw_input("pw")
 
 #try/finally allows program to cleanup GPIO 
 try:
@@ -190,4 +147,6 @@ try:
         time.sleep(0.1)
 finally:
     print (time.strftime("%H:%M:%S"))
+    message = "failed at %s" % time.strftime("%H:%M:%S")
+    sendemail(myEmail, toEmail, [], rPI debug, message, login, pw)
     io.cleanup()
