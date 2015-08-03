@@ -124,7 +124,7 @@ def alarm():
 
 ##### Create Event Detects #####
 # door beep callback function
-io.add_event_detect(doorPin, io.BOTH)
+io.add_event_detect(doorPin, io.BOTH, bouncetime=500)
 def my_callback(channel):
     print "door was open, beep beep"
     for x in range(2):
@@ -171,14 +171,17 @@ def sendemail(from_addr, to_addr_list, cc_addr_list,
     server.quit()
     return problems
 
-if input("would you like to send debug email, y or n?") == "y":
+debug = input("would you like to send debug email, y or no?"
+
+if (debug == "y"):
     myEmail = "brendonpierson@gmail.com"
     toEmail = "brendonpierson@gmail.com"
     message = "failed at %s" % time.strftime("%H:%M:%S")
     login = input("username?")
     pw = input("pw")
 
-sendemail(myEmail, toEmail, [], rPI debug, message, login, pw)
+
+sendemail(myEmail, toEmail, []," rPI debug", message, login, pw)
 
 #try/finally allows program to cleanup GPIO 
 try:
