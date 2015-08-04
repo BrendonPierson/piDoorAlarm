@@ -4,6 +4,7 @@ import RPi.GPIO as io
 import pygame
 import smtplib
 
+# get an email with the time sent when the program closes
 if input("would you like to send debug email, y or n?") == "y":
     myEmail = raw_input("From email")
     toEmail = raw_input("To email?")
@@ -22,7 +23,7 @@ print (time.strftime("%H:%M:%S"))
 # set the pin numbering 
 io.setmode(io.BOARD)
 
-# assign GPIO pins
+# assign GPIO pins, board numbering
 alarmPin = 11
 disarmPin = 13
 doorPin = 37
@@ -47,7 +48,7 @@ armedNoDelay = 31
 # the pull up resistor negates the need for aditional resistors in out circuit
 io.setup(doorPin, io.IN, pull_up_down=io.PUD_UP)
 io.setup(alarmPin, io.OUT)
-io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP) # may need to put this back in
+io.setup(disarmPin, io.IN, pull_up_down=io.PUD_UP) 
 io.setup(armedWdelay, io.IN, pull_up_down=io.PUD_UP)
 io.setup(armedNoDelay, io.IN, pull_up_down=io.PUD_UP)
 io.setup(onPin, io.IN, pull_up_down=io.PUD_UP)
@@ -129,13 +130,6 @@ def sendemail(from_addr, to_addr_list, cc_addr_list,
     problems = server.sendmail(from_addr, to_addr_list, message)
     server.quit()
     return problems
-
-# Prompt if you would like email sent
-if input("would you like to send debug email, y or n?") == "y":
-    myEmail = raw_input("From email")
-    toEmail = raw_input("To email?")
-    login = raw_input("username?")
-    pw = raw_input("pw")
 
 #try/finally allows program to cleanup GPIO 
 try:
