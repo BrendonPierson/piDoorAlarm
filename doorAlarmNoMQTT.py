@@ -5,7 +5,7 @@ import pygame
 import smtplib
 
 # get an email with the time sent when the program closes
-if input("would you like to send debug email, y or n?") == "y":
+if (raw_input("would you like to send debug email, y or n?")) == "y":
     myEmail = raw_input("From email")
     toEmail = raw_input("To email?")
     login = raw_input("username?")
