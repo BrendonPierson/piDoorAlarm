@@ -148,5 +148,5 @@ try:
 finally:
     print (time.strftime("%H:%M:%S"))
     message = "failed at %s" % time.strftime("%H:%M:%S")
-    sendemail(myEmail, toEmail, [], rPI debug, message, login, pw)
+    sendemail(myEmail, toEmail, [], 'rPI debug', message, login, pw)
     io.cleanup()
